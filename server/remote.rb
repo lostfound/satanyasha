@@ -14,7 +14,7 @@ class RemoteServer
 
   def initialize
     @mediafiles = ['avi', 'flv', 'mkv', 'mp4', 'mpeg', 'mpg', 'ts', 'vob', 'webm', 'wmv']
-    @port = 2000
+    @port = 6660
     @home = homedir
     @password="liserginka"
     @hostname=hostname
@@ -102,7 +102,7 @@ class RemoteServer
             when :ls
               base_dir = request[:path]
               base_dir ||= @home
-              ls =  Dir.glob("#{base_dir}/*")
+              ls =  Dir.entries("#{base_dir}").select {|n| not n.start_with? '.'}.map {|n| File.join base_dir, n}
               dirs = ls.select {|f| File.directory? f}.sort
               files = ls.select { |f| !File.directory?(f) && ( @mediafiles.include? f.split('.')[-1].downcase)}.sort
               dirs = dirs.map {|path| Hash type: :dir, path: path, name: File.basename(path)}
@@ -131,7 +131,7 @@ class TCPSocket
     write object.to_json
   end
   def read_hash
-    Hash[*JSON.parse(recv(5024)).map {|k,v| p k.to_sym,v}.flatten]
+    Hash[*JSON.parse(recv(5024)).map {|k,v| k.to_sym,v}.flatten]
   end
 end
 
