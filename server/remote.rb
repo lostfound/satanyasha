@@ -131,8 +131,20 @@ class TCPSocket
     write object.to_json
   end
   def read_hash
-    Hash[*JSON.parse(recv(5024)).map {|k,v| k.to_sym,v}.flatten]
+    Hash[*JSON.parse(recv(5024)).map {|k,v| [k.to_sym, v] }.flatten]
   end
+end
+case ARGV[0]
+when '--help'
+  puts 'satanyasha -d'
+  puts '  run as daemon'
+  exit 0
+when '-d'
+  pid = fork do
+    server = RemoteServer.new
+    server.start
+  end
+  exit
 end
 
 server = RemoteServer.new
