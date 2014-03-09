@@ -32,4 +32,7 @@ OTHER_FILES += \
     qml/satanyasha/ControlMenu.qml \
     qml/satanyasha/FilesListModel.qml \
     qml/satanyasha/FilesModel.qml \
-    qml/satanyasha/UnicodeButton.qml
+    qml/satanyasha/UnicodeButton.qml \
+    android/AndroidManifest.xml
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

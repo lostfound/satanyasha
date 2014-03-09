@@ -27,6 +27,6 @@
             <title data-layout="0" data-name="penta" data-recursion="2">Star</title>
         </g>
         <g id="main">
-            <use id="ff0" stroke="black" stroke-width="4" transform="translate(100,110) scale(3)" xlink:href="#fractal0"/>
+            <use id="ff0" stroke="white" stroke-width="4" transform="translate(100,110) scale(3)" xlink:href="#fractal0"/>
         </g>
     </svg>
