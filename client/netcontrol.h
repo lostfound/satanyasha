@@ -37,6 +37,7 @@ public slots:
     void rewind1();
     void rewind2();
     void rewind3();
+    void next_osd();
     void next();
     void prev();
     void incvol();

@@ -79,7 +79,7 @@ class RemoteServer
           loop do
             request = client.read_hash
 
-            if [:play, :fullscreen, :forward1,
+            if [:play, :fullscreen, :forward1, :next_osd,
               :forward2, :forward3, :rewind1, :rewind2,
               :rewind3, :increase_volume, :decrease_volume].include?request[:type].to_sym
                 IO.popen ['smplayer', '-send-action', request[:type]]

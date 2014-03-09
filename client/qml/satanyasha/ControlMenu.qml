@@ -129,6 +129,14 @@ Rectangle {
       anchors.topMargin: main.s.s(20)
       anchors.leftMargin: main.s.s(20)
   }
+  UnicodeButton {
+      id: button_osd
+      text: "≡"
+      color: main.s.c.green_c0
+      text_color: main.s.c.green_d2
+      anchors.left: button_next.left
+      anchors.top: button_increase_volume.top
+  }
   TextButton {
       id: button_openfile
       text: "Open"
@@ -138,7 +146,7 @@ Rectangle {
       anchors.topMargin: main.s.s(20)
 
       color: main.s.c.green_c0
-      text_color: main.s.c.green_d1
+      text_color: main.s.c.green_d2
   }
 
   function on_play_pause() {
@@ -160,6 +168,7 @@ Rectangle {
       button_next.clicked.connect(net.next)
       button_prev.clicked.connect(net.prev)
       button_openfile.clicked.connect(main.go_to_files)
+      button_osd.clicked.connect(net.next_osd)
 
 
   }

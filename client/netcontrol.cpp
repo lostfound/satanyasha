@@ -212,6 +212,10 @@ void NetControl::play()
 {
     tcp_send({{"type", "play"}});
 }
+void NetControl::next_osd()
+{
+    tcp_send({{"type", "next_osd"}});
+}
 void NetControl::next()
 {
     tcp_send({{"type", "prev"}});
