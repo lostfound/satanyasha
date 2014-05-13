@@ -2,6 +2,8 @@
 #include <QDebug>
 #include <QJsonDocument>
 #include <QCryptographicHash>
+#include <QSqlQuery>
+#include <QSqlError>
 
 const QString NetControl::MULTICAST_ADDR = "224.0.0.1";
 const int     NetControl::MULTICAST_PORT = 6660;//htonl(6660);
@@ -11,6 +13,61 @@ NetControl::NetControl(QObject *parent) :
 {
     tcpSocket = NULL;
     udpSocket = NULL;
+}
+void NetControl::init_db()
+{
+    db = QSqlDatabase::addDatabase("QSQLITE", "Satanyasha");
+    QString dbpth = QDir("morton.sqlite").absolutePath();
+    db.setDatabaseName(dbpth);
+    if (!db.open())
+    {
+      qDebug()<<"Database error:"<<db.lastError();
+    }else {
+        prepare_db();
+        emit dbinited();
+    }
+
+}
+
+void NetControl::prepare_db()
+{
+    QSqlQuery query(db);
+    if (!query.exec("CREATE TABLE IF NOT EXISTS settings(key TEXT UNIQUE, value TEXT)")) {
+        qDebug()<<"DB ERROR!!!";
+    }else {
+        qDebug()<<"DB initialized!";
+        query.prepare("INSERT into settings(key, value) VALUES('password', 'liserginka');");
+        query.exec();
+        query.prepare("INSERT into settings(key, value) VALUES('ip', '192.168.1.100');");
+        query.exec();
+        query.prepare("INSERT into settings(key, value) VALUES('port', '6660');");
+        query.exec();
+    }
+}
+
+QString NetControl::get_setting(const QString &key)
+{
+    QSqlQuery query(db);
+    query.prepare("SELECT value FROM settings WHERE key=:key ;");
+    query.bindValue(QString(":key"), QVariant(key));
+
+    if ( query.exec()) {
+        while (query.next()) {
+            return query.value(0).toString();
+        }
+    }
+    return QString();
+}
+
+void NetControl::put_setting(const QString &key, const QString &value)
+{
+    QSqlQuery query(db);
+
+    query.prepare("INSERT or REPLACE INTO settings(key, value) VALUES(:key, :value);");
+    query.bindValue(":key", key);
+    query.bindValue(":value", value);
+    query.exec();
+
 }
 void NetControl::startUdpReceiver()
 {
@@ -100,6 +157,22 @@ void NetControl::connectToServer(const QString &server_id, const QString &passwo
     }
 
 }
+void NetControl::connectToServer(const QString &ip, const QString &port, const QString &password)
+{
+   QString id="[" + ip + ":" + port + "]";
+   qDebug()<<ip<<port<<password;
+   qDebug()<< id;
+   QMap<QString,QString> server;
+   server["id"]  = id;
+   server["port"]=port;
+   server["ip"] = ip;
+   servers[id] = server;
+   put_setting("ip", ip);
+   put_setting("port", port);
+   put_setting("password", password);
+   connectToServer(id, password);
+}
+
 void NetControl::tcp_send(const QMap<QString, QString> &params)
 {
     if (tcpSocket) {
@@ -175,6 +248,7 @@ QJsonObject NetControl::json_parce(const QByteArray &data)
     Q_ASSERT(!jsdoc.isNull());
     return jsdoc.object();
 }
+
 void NetControl::forward1()
 {
     tcp_send({{"type", "forward1"}});

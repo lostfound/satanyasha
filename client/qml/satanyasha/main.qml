@@ -63,6 +63,7 @@ Rectangle {
         sid = server_id
         body.setSource("Server.qml")
     }
+
     function back_to_menu(){
         caption.text = sid
         place = {"type": "menu"}
@@ -111,6 +112,14 @@ Rectangle {
     }
     function on_authorized() {
         console.log("Authorized")
+        var src = "" + body.source
+        if (src.indexOf("ServersList") > 0) {
+          var server_id = body.item.get_id()
+          caption.text = server_id
+          place = {"id": "server", "sid": server_id}
+          sid = server_id
+        }
+
         place = {"type": "menu"}
         body.setSource("ControlMenu.qml")
     }
@@ -126,13 +135,17 @@ Rectangle {
           main.s.init()
           header.height = main.s.s(80)
           caption.font.pixelSize = main.s.s(24)
-          body.setSource("ServersList.qml")
-          is_compleated = 2;
-          net.server_discovered.connect(on_server_discovered)
-          net.authorized.connect(on_authorized)
-          net.files_received.connect(on_files)
-          net.startUdpReceiver();
+          net.dbinited.connect(on_db_inited)
+          net.init_db();
         }
+    }
+    function on_db_inited() {
+        body.setSource("ServersList.qml")
+        is_compleated = 2;
+        net.server_discovered.connect(on_server_discovered)
+        net.authorized.connect(on_authorized)
+        net.files_received.connect(on_files)
+        net.startUdpReceiver();
     }
 
     onWidthChanged: {

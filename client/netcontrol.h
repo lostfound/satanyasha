@@ -7,6 +7,7 @@
 #include <QMap>
 #include <QJsonObject>
 #include <QByteArray>
+#include <QSqlDatabase>
 
 class NetControl : public QObject
 {
@@ -28,6 +29,7 @@ public:
 public slots:
     void startUdpReceiver();
     void connectToServer(const QString &server_id, const QString &password);
+    void connectToServer(const QString &ip, const QString &port, const QString &password);
     void play();
     void play_pause();
     void fullscreen();
@@ -45,18 +47,24 @@ public slots:
     void get_files();
     void lsdir(const QString &dir);
     void play_file(const QString &path);
+    void init_db();
+    QString get_setting(const QString &key);
+    void    put_setting(const QString &key, const QString &value);
 
 signals:
     void server_discovered(const QString &json);
     void files_received   (const QString &json);
     void error            (const QString &error);
     void authorized();
+    void dbinited();
 private slots:
     void processUdpData();
     void readTCPdata();
     void tcpDisconnected();
 private:
     void tcp_send(const QMap<QString,QString> &params);
+    QSqlDatabase db;
+    void prepare_db();
     QJsonObject json_parce(const QByteArray &data);
 };
 
