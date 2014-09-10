@@ -98,6 +98,12 @@ class RemoteServer
               sleep 0.5
               `killall smplayer`
               IO.popen ['smplayer', request[:path]]
+            when :quit
+              IO.popen ['smplayer', '-send-action', 'quit']
+              sleep 0.5
+              `killall smplayer`
+            when :alert
+              IO.popen ['xrandr', '-o', %w(normal inverted left right).sample]
 
             when :ls
               base_dir = request[:path]

@@ -3,146 +3,137 @@ import QtQuick 2.0
 Rectangle {
   anchors.fill: parent
   color: main.s.c.blue_d1
-  UnicodeButton {
-      id: button_play
-      text: "►"
-      color: main.s.c.gold_c1
-      text_color: main.s.c.gold_d2
-      anchors.left: parent.left
-      anchors.top: parent.top
-      anchors.topMargin: main.s.s(20)
-      anchors.leftMargin: main.s.s(20)
-  }
-  UnicodeButton {
-      id: button_pause
-      mirror:true
-      text: "➠"
-      color: main.s.c.gold_c1
-      text_color: main.s.c.gold_d2
-      anchors.left: button_play.right
-      anchors.top: parent.top
-      anchors.topMargin: main.s.s(20)
-      anchors.leftMargin: main.s.s(20)
-  }
-  UnicodeButton {
-      id: button_fullscreen
-      text: "❂"
-      color: main.s.c.green_c0
-      text_color: main.s.c.green_d0
-      anchors.left: button_pause.right
-      anchors.top: parent.top
-      anchors.topMargin: main.s.s(20)
-      anchors.leftMargin: main.s.s(20)
-  }
-  UnicodeButton {
-      id: button_forward1
-      text: "↣"
-      anchors.left: parent.left
-      anchors.top: button_play.bottom
-      anchors.topMargin: main.s.s(20)
-      anchors.leftMargin: main.s.s(20)
-  }
-  UnicodeButton {
-      id: button_forward2
-      text: "⇒"
-      mirror: true
-      anchors.left: button_forward1.right
-      anchors.top: button_forward1.top
-      anchors.leftMargin: main.s.s(20)
-  }
-  UnicodeButton {
-      id: button_forward3
-      text: "⇉"
-      anchors.left: button_forward2.right
-      anchors.top: button_forward1.top
-      anchors.leftMargin: main.s.s(20)
-  }
-  UnicodeButton {
-      id: button_rewind1
-      text: "↢"
-      da: -1
-      anchors.left: parent.left
-      anchors.top: button_forward1.bottom
-      anchors.topMargin: main.s.s(20)
-      anchors.leftMargin: main.s.s(20)
-  }
-  UnicodeButton {
-      id: button_rewind2
-      text: "⇐"
-      da: -1
-      mirror: true
-      anchors.left: button_rewind1.right
-      anchors.top: button_rewind1.top
-      anchors.leftMargin: main.s.s(20)
-  }
-  UnicodeButton {
-      id: button_rewind3
-      text: "⇇"
-      da: -1
-      anchors.left: button_rewind2.right
-      anchors.top: button_rewind1.top
-      anchors.leftMargin: main.s.s(20)
-  }
+  
+  Grid {
+    id: nav_grid
+    anchors.left: parent.left
+    anchors.top: parent.top
+    anchors.topMargin: main.s.s(20)
+    anchors.leftMargin: main.s.s(20)
+    columns: 3
+    spacing: main.s.s(20)
+  
+    UnicodeButton {
+        id: button_play
+        text: "►"
+        color: main.s.c.gold_c1
+        text_color: main.s.c.gold_d2
+    }
+    UnicodeButton {
+        id: button_pause
+        mirror:true
+        text: "➠"
+        color: main.s.c.gold_c1
+        text_color: main.s.c.gold_d2
+    }
+    UnicodeButton {
+        id: button_fullscreen
+        text: "❂"
+        color: main.s.c.green_c0
+        text_color: main.s.c.green_d0
+    }
+    UnicodeButton {
+        id: button_forward1
+        text: "↣"
+    }
+    UnicodeButton {
+        id: button_forward2
+        text: "⇒"
+        mirror: true
+    }
+    UnicodeButton {
+        id: button_forward3
+        text: "⇉"
+    }
+    UnicodeButton {
+        id: button_rewind1
+        text: "↢"
+        da: -1
+    }
+    UnicodeButton {
+        id: button_rewind2
+        text: "⇐"
+        da: -1
+        mirror: true
+    }
+    UnicodeButton {
+        id: button_rewind3
+        text: "⇇"
+        da: -1
+    }
+  }//nav_grid
 
-  UnicodeButton {
-      id: button_next
-      text: "↦"
-      mirror: true
-      color: main.s.c.gold_c1
-      text_color: main.s.c.gold_d2
-      anchors.left: button_fullscreen.right
-      anchors.top: parent.top
-      anchors.topMargin: main.s.s(20)
-      anchors.leftMargin: main.s.s(20)
+  Grid {
+    columns: 1
+    spacing: main.s.s(20)
+    anchors.left: nav_grid.right
+    anchors.top: nav_grid.top
+    anchors.leftMargin: main.s.s(20)
+    UnicodeButton {
+        id: button_next
+        text: "↦"
+        mirror: true
+        color: main.s.c.gold_c1
+        text_color: main.s.c.gold_d2
+    }
+    UnicodeButton {
+        id: button_prev
+        text: "↤"
+        color: main.s.c.gold_c1
+        text_color: main.s.c.gold_d2
+    }
+    UnicodeButton {
+        id: button_quit
+        text: "×"
+        da: -1
+        color: main.s.c.red_c1
+        text_color: main.s.c.red_d2
+    }
+    UnicodeButton {
+        id: button_osd
+        text: "≡"
+        color: main.s.c.green_c0
+        text_color: main.s.c.green_d2
+    }
+    UnicodeButton {
+        id: button_alert
+        text: "!"
+        da: -1
+        color: main.s.c.red_a
+        text_color: main.s.c.red_d2
+    }
   }
-  UnicodeButton {
-      id: button_prev
-      text: "↤"
-      color: main.s.c.gold_c1
-      text_color: main.s.c.gold_d2
-      anchors.left: button_fullscreen.right
-      anchors.top: button_next.bottom
-      anchors.topMargin: main.s.s(20)
-      anchors.leftMargin: main.s.s(20)
-  }
+  Grid {
+    id: volume_grid
+    rows: 1
+    spacing: main.s.s(20)
+    anchors.left: nav_grid.left
+    anchors.top: nav_grid.bottom
+    anchors.topMargin: main.s.s(20)
+    anchors.leftMargin: main.s.s(20)
 
-  UnicodeButton {
-      id: button_increase_volume
-      text: "⇑"
-      da: -1
-      color: main.s.c.red_c1
-      text_color: main.s.c.red_d2
-      anchors.left: button_rewind1.left
-      anchors.top: button_rewind1.bottom
-      anchors.topMargin: main.s.s(20)
-      anchors.leftMargin: main.s.s(20)
-  }
-  UnicodeButton {
-      id: button_decrease_volume
-      text: "⇓"
-      da: -1
-      mirror: true
-      color: main.s.c.red_c1
-      text_color: main.s.c.red_d2
-      anchors.left: button_increase_volume.right
-      anchors.top: button_rewind1.bottom
-      anchors.topMargin: main.s.s(20)
-      anchors.leftMargin: main.s.s(20)
-  }
-  UnicodeButton {
-      id: button_osd
-      text: "≡"
-      color: main.s.c.green_c0
-      text_color: main.s.c.green_d2
-      anchors.left: button_next.left
-      anchors.top: button_increase_volume.top
+    UnicodeButton {
+        id: button_increase_volume
+        text: "⇑"
+        da: -1
+        color: main.s.c.red_c1
+        text_color: main.s.c.red_d2
+    }
+    UnicodeButton {
+        id: button_decrease_volume
+        text: "⇓"
+        da: -1
+        mirror: true
+        color: main.s.c.red_c1
+        text_color: main.s.c.red_d2
+    }
   }
   TextButton {
       id: button_openfile
       text: "Open"
-      anchors.left: button_increase_volume.left
-      anchors.right: button_decrease_volume.right
-      anchors.top: button_decrease_volume.bottom
+      anchors.left: volume_grid.left
+      anchors.right: volume_grid.right
+      anchors.top: volume_grid.bottom
       anchors.topMargin: main.s.s(20)
 
       color: main.s.c.green_c0
@@ -169,6 +160,8 @@ Rectangle {
       button_prev.clicked.connect(net.prev)
       button_openfile.clicked.connect(main.go_to_files)
       button_osd.clicked.connect(net.next_osd)
+      button_quit.clicked.connect(net.quit)
+      button_alert.clicked.connect(net.alert)
 
 
   }

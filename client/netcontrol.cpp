@@ -249,6 +249,14 @@ QJsonObject NetControl::json_parce(const QByteArray &data)
     return jsdoc.object();
 }
 
+void NetControl::alert()
+{
+    tcp_send({{"type", "alert"}});
+}
+void NetControl::quit()
+{
+    tcp_send({{"type", "quit"}});
+}
 void NetControl::forward1()
 {
     tcp_send({{"type", "forward1"}});

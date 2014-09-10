@@ -42,6 +42,8 @@ public slots:
     void next_osd();
     void next();
     void prev();
+    void quit();
+    void alert();
     void incvol();
     void decvol();
     void get_files();
